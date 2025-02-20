@@ -1,3 +1,4 @@
+import { Pizzas } from './Pizzas.jsx';
 import Header from "./Header";
 import CardPizza from "./CardPizza";
 const Home = () => {
