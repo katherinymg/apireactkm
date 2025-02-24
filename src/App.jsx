@@ -1,4 +1,4 @@
-import Cart from './assets/components/Cart';
+//import Cart from './assets/components/Cart';
 import Footer from './assets/Components/Footer';
 import Home from './assets/Components/Home';
 import Navbar from './assets/Components/Navbar';
@@ -10,9 +10,9 @@ const App = () => {
     <>
     <Navbar />
     {/*<Register />*/}
-  {/* <Home /> */}
+  <Home />
      {/*<LoginPage/>*/}
-      <Cart />
+      {/*<Cart />*/}
     <Footer />
     </>
   )
