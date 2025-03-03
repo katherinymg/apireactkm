@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
   
   const Pizzaresume = () => {
-    const [pizza, setPizza] = useState([]);
+    const [pizza, setPizza] = useState({});
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
