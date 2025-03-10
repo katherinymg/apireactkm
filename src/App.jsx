@@ -8,19 +8,17 @@ import Login from './assets/Pages/Login';
 import NotFound from './assets/Pages/NotFound';
 import PizzaResume from './assets/Pages/PizzaResume';
 import Profile from './assets/Components/Profile';
+import { CartProvider } from './assets/Components/CartContext';
+import { PizzaProvider } from './assets/Components/PizzaContext';
 
 const App = () => {
   return (
+
+    <PizzaProvider>
+      <CartProvider>
     <BrowserRouter>
         <Navbar />
-        {/* <Home /> */}
-        {/* <Cart /> */}
-        {/* <Register /> */}
-        {/* <Login /> */}
-        {/* <Pizza /> */}
-        {/* <Profile /> */}
-        
-        <Routes>
+             <Routes>
           <Route path='/' element={ <Home />}/>
           <Route path='/login' element={ <Login />}/>
           <Route path='/register' element={ <Register />}/>
@@ -34,6 +32,8 @@ const App = () => {
         <Footer />
         
       </BrowserRouter>
+      </CartProvider>
+    </PizzaProvider>
   )
 }
 

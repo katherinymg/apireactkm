@@ -1,7 +1,15 @@
 import { useState } from "react";
+import { useCart } from "../Components/CartContext"; // Importa el hook useCart
 
-const CardPizza = ({ name, price, ingredients, img, desc }) => {
-const [showDesc, setShowDesc] = useState(false);
+const CardPizza = ({ id, name, price, ingredients, img, desc }) => {
+  const [showDesc, setShowDesc] = useState(false);
+  const { addToCart } = useCart(); // Obtén la función addToCart desde el contexto
+
+  // Función para manejar el click en el botón "Agregar"
+  const handleAddToCart = () => {
+    const product = { id, name, price, ingredients, img, desc }; // Crea el objeto del producto
+    addToCart(product); // Llama a addToCart con el producto
+  };
 
   return (
     <div className="pizza-card">
@@ -17,13 +25,13 @@ const [showDesc, setShowDesc] = useState(false);
 
         <p><strong>Precio: ${price}</strong></p>
 
-        
         <button className="button" onClick={() => setShowDesc(!showDesc)}>
           {showDesc ? "Ocultar descripción" : "Ver más"}
         </button>
         {showDesc && <p className="descripcion">{desc}</p>}
 
-        <button className="button">Agregar</button>
+        {/* Botón para agregar el producto al carrito */}
+        <button className="button" onClick={handleAddToCart}>Agregar</button>
       </div>
     </div>
   );
