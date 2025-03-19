@@ -1,40 +1,82 @@
-import { useState } from "react";
-import { useCart } from "../Components/CartContext"; // Importa el hook useCart
+import PropTypes from 'prop-types';
+import { useCart } from './CartContext';
+import { Link } from 'react-router-dom'
 
-const CardPizza = ({ id, name, price, ingredients, img, desc }) => {
-  const [showDesc, setShowDesc] = useState(false);
-  const { addToCart } = useCart(); // Obtén la función addToCart desde el contexto
+const Card = ({ img, name, price, ingredients, id }) => {
+  const { addToCart } = useCart(); // Usamos la función para agregar al carrito
 
-  // Función para manejar el click en el botón "Agregar"
+  // Producto que se agregará al carrito
   const handleAddToCart = () => {
-    const product = { id, name, price, ingredients, img, desc }; // Crea el objeto del producto
-    addToCart(product); // Llama a addToCart con el producto
+    const product = { id, name, price, img };
+    addToCart(product);
+
+    // Mostrar alerta con estilo reducido
+    MySwal.fire({
+      title: "✅ Agregado",
+      text: `"${name}" añadido al carrito.`,
+      icon: "success",
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 1500, // Más rápido
+      width: "250px", // Reducimos el tamaño del mensaje
+      padding: "5px", // Menos espacio dentro del popup
+      customClass: {
+        popup: "small-toast", // Clases personalizadas
+      },
+    });
   };
 
   return (
-    <div className="pizza-card">
-      <img src={img} alt={name} className="pizza-img" width={250} />
-      <h3>{name}</h3>
-      <div className="pizza-info">
-        <p><strong>Ingredientes:</strong></p>
-        <ul className="ingredientes">
-          {ingredients.map((ingredient) => (
-            <li key={ingredient}>{ingredient}</li>
-          ))}
-        </ul>
+    <div className="card custom-card">
+      {/* Imagen */}
+      <img src={img} className="card-img-top" alt={`Imagen de ${name}`} />
 
-        <p><strong>Precio: ${price}</strong></p>
+      {/* Cuerpo */}
+      <div className="card-body">
+        {/* Título */}
+        <h5 className="card-title text-center">{name}</h5>
 
-        <button className="button" onClick={() => setShowDesc(!showDesc)}>
-          {showDesc ? "Ocultar descripción" : "Ver más"}
-        </button>
-        {showDesc && <p className="descripcion">{desc}</p>}
+        {/* Ingredientes con lista */}
+        <div className="card-text text-center">
+          <strong>Ingredientes:</strong>
+          <ul className="list-unstyled">
+            {Array.isArray(ingredients) && ingredients.length > 0 ? (
+              ingredients.map((ingredient) => (
+                <li key={ingredient}>🍕 {ingredient}</li>
+              ))
+            ) : (
+              <li>No disponibles</li>
+            )}
+          </ul>
+        </div>
 
-        {/* Botón para agregar el producto al carrito */}
-        <button className="button" onClick={handleAddToCart}>Agregar</button>
+        {/* Precio */}
+        <p className="card-text text-center">
+          <strong>Precio:</strong> ${price.toLocaleString()}
+        </p>
+
+        {/* Botones */}
+        <div className="d-flex justify-content-around mt-3">
+          <Link to={`/pizza/${id}`} className="btn btn-outline-dark">
+            Ver Más <span role="img" aria-label="ver más">👀</span>
+          </Link>
+          <button className="btn btn-dark" onClick={handleAddToCart}>
+            Añadir <span role="img" aria-label="carrito">🛒</span>
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default CardPizza;
+// Validación de las props
+Card.propTypes = {
+  id: PropTypes.string.isRequired, // Agregado para identificar el producto
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+  img: PropTypes.string.isRequired,
+};
+
+export default Card;

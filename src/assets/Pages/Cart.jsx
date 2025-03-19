@@ -1,8 +1,10 @@
 import { useCart } from '../Components/CartContext';
+import { useUser } from '../Context/UserContext';
 
 const Cart = () => {
   const { cart, increaseQtty, decreaseQtty, calcTotal } = useCart(); 
-
+  const { token } = useUser()
+  
   return (
     <div className='cart-container'>
       <h1>Shopping Cart</h1>
