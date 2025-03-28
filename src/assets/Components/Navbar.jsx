@@ -1,12 +1,27 @@
-import { Link } from 'react-router-dom';
-import { useCart } from '../Components/CartContext'; 
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { CartContext } from "../Context/CartContext";
+import { UserContext } from "../context/UserContext";
 
 const Navbar = () => {
-  const { calcTotal } = useCart();  // Usamos el hook useCart para obtener calcTotal
-  const token = false; // Mantén el valor del token según corresponda
+  const { cart } = useContext(CartContext);
+  const { userData, applyLogOut } = useContext(UserContext);
+
+  //Manejar cierre de sesión
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    applyLogOut();
+    navigate("/");
+  }
+
+  const totalPrice = cart.reduce(
+    (total, item) => total + item.price * item.count,
+    0
+  );
+  //const token = true;
 
   return (
-    <nav className="navbar navbar-expand navbar-light bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-light bg-dark sticky-top">
       <div className="container-fluid">
         <button
           className="navbar-toggler"
@@ -19,53 +34,70 @@ const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link to="/" className="nav-link text-white">
-                Pizza Mamma Mia!
+              <Link className="nav-link text-white" to="/">
+                Pizzeria Mamma Mia
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/" className="nav-link text-white border border-white rounded">
+              <Link
+                className="nav-link text-white border border-white rounded mx-2"
+                to="/"
+              >
                 🍕Home
               </Link>
             </li>
-            {token ? (
+
+            { userData ? (
               <>
                 <li className="nav-item">
-                  <Link to="/profile" className="text-decoration-none ms-3 text-white">
-                    Profile
+                  <Link
+                    className="nav-link text-white border border-white rounded mx-2"
+                    to="/profile"
+                  >
+                    🔓Profile
                   </Link>
                 </li>
 
                 <li className="nav-item">
-                  <Link to="/logout" className="text-decoration-none ms-3 text-white">
-                    Logout
-                  </Link>
+                  <button
+                    className="nav-link text-white border border-white rounded mx-2 btn btn-outline-danger"
+                    onClick={handleLogOut}
+                  >
+                    🔒Logout
+                  </button>
                 </li>
               </>
+
             ) : (
+
               <>
                 <li className="nav-item">
-                  <Link to="/login" className="nav-link text-white border border-white rounded mx-2">
+                  <Link
+                    className="nav-link text-white border border-white rounded mx-2"
+                    to="/login"
+                  >
                     🔐Login
                   </Link>
                 </li>
-
                 <li className="nav-item">
-                  <Link to="/register" className="nav-link text-white border border-white rounded mx-2">
+                  <Link
+                    className="nav-link text-white border border-white rounded mx-2"
+                    to="/register"
+                  >
                     🔐Register
                   </Link>
                 </li>
               </>
             )}
           </ul>
-          
-      
+
           <Link to="/cart">
-            <button className="total btn border border-white text-white">
-              🛒 Total: ${calcTotal.toLocaleString()} 
+            <button className="btn border border-white text-white">
+              🛒 Total: ${totalPrice.toLocaleString()}
             </button>
           </Link>
         </div>
@@ -75,4 +107,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

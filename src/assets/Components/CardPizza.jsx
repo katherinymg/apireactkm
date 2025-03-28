@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useCart } from './CartContext';
+import { useCart } from '../Context/CartContext';
 import { Link } from 'react-router-dom'
 
 const Card = ({ img, name, price, ingredients, id }) => {

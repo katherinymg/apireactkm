@@ -1,5 +1,6 @@
-import { useCart } from '../Components/CartContext';
+import { useCart } from '../Context/CartContext';
 import { useUser } from '../Context/UserContext';
+import Swal from "sweetalert2";
 
 const Cart = () => {
   const { cart, increaseQtty, decreaseQtty, calcTotal } = useCart(); 

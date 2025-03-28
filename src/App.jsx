@@ -7,11 +7,15 @@ import Register from './assets/Pages/Register';
 import Login from './assets/Pages/Login';
 import NotFound from './assets/Pages/NotFound';
 import PizzaResume from './assets/Pages/PizzaResume';
-import Profile from './assets/Components/Profile';
-import { CartProvider } from './assets/Components/CartContext';
+import Profile from './assets/Pages/Profile';
+import { CartProvider } from './assets/Context/CartContext';
 import { PizzaProvider } from './assets/Context/PizzaContext';
 import { UserProvider } from './assets/Context/UserContext';
 import { useUser } from './assets/Context/UserContext';
+import ProtectedRoute from "./assets/Components/ProtectedRoute";
+import RedirectRoute from "./assets/Components/RedirectRoute";
+
+
 
 // PrivateRoute: Para que las rutas privadas solo sean accesibles si hay un token
 const PrivateRoute = ({ children }) => {
@@ -24,6 +28,7 @@ const PublicRoute = ({ children }) => {
   const { token } = useUser(); // Usamos el hook useUser para obtener el token
   return !token ? children : <Navigate to="/" />;
 };
+
 const App = () => {
   return (
     <UserProvider>
